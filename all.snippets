@@ -1,0 +1,18 @@
+global !p
+
+def complete(t, types = ["fix", "feat", "docs", "style", "refactor", "perf", "test", "chore"]):
+    if t:
+        types = [m[len(t):] for m in types if m.startswith(t)]
+    if len(types) == 1:
+        return types[0]
+    return "(" + "|".join(types) + ")"
+
+endglobal
+
+snippet commit "Commit format <type>(<scope>): <subject>``<BLANK LINE> <body> <BLANK LINE> <footer>" b
+$1`!p snip.rv=complete(t[1])`:(${2}) ${3}
+
+$0
+
+[$4]
+endsnippet
